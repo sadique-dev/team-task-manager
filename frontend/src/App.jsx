@@ -243,7 +243,7 @@ function App() {
     return (
       <div className="container auth-container">
         <h1>Team Task Manager</h1>
-        <p className="subtitle">Minimal React + Express + MongoDB task manager</p>
+        <p className="subtitle">Manage your team tasks efficiently</p>
 
         <div className="row auth-toggle">
           <button
