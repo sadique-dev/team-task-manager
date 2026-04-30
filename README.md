@@ -1,208 +1,142 @@
-# Team Task Manager
+Team Task Manager Application
 
-Minimal full-stack Team Task Manager built with:
+This is a full-stack Team Task Manager web application that allows users to create projects, assign tasks, and track progress with role-based access control.
 
-- Backend: Node.js, Express, MongoDB, Mongoose, JWT
-- Frontend: React + Vite
-- Roles: `Admin` and `Member`
+---
 
-## Folder Structure
+🚀 Tech Stack
 
-```text
-team-task-manager/
-  backend/
-    config/
-    middleware/
-    models/
-    routes/
-    .env.example
-    package.json
-    server.js
-  frontend/
-    src/
-    .env.example
-    package.json
-  .gitignore
-  README.md
-```
+Frontend:
 
-## Features
+* React (Vite)
 
-- Signup and login with JWT authentication
-- Role-based access control
-- Admin can:
-  - create projects
-  - add members to projects
-  - create and assign tasks
-- Member can:
-  - view assigned tasks
-  - update task status
+Backend:
 
-## Backend Environment Variables
+* Node.js
+* Express.js
 
-Create `backend/.env` from `backend/.env.example`:
+Database:
 
-```env
+* MongoDB (MongoDB Atlas)
+
+Authentication:
+
+* JWT (JSON Web Tokens)
+
+Deployment:
+
+* Backend + Frontend deployed on Railway
+
+---
+
+✨ Features
+
+* User Authentication (Signup/Login)
+* Role-Based Access Control (Admin & Member)
+
+Admin Capabilities:
+
+* Create projects
+* Add members to projects
+* Create and assign tasks
+
+Member Capabilities:
+
+* View assigned tasks
+
+* Update task status
+
+* Dashboard to manage tasks and projects
+
+---
+
+🌐 Live Deployment
+
+The application is fully deployed and working live on Railway:
+
+Live URL:
+https://team-task-manager-production-50a5.up.railway.app
+
+---
+
+⚙️ Environment Configuration
+
+Backend (.env):
+
 PORT=5000
-MONGO_URI=mongodb://127.0.0.1:27017/team-task-manager
-JWT_SECRET=replace_with_a_secret_key
-```
+MONGO_URI=your_mongodb_atlas_connection_string
+JWT_SECRET=your_secret_key
 
-## Frontend Environment Variables
+Frontend (.env):
 
-Create `frontend/.env` from `frontend/.env.example`:
+VITE_API_URL=https://team-task-manager-production-50a5.up.railway.app/api
 
-```env
-VITE_API_URL=http://localhost:5000/api
-```
+---
 
-## Run the Backend
+🛠️ Deployment Notes
 
-1. Open a terminal in `backend`
-2. Install dependencies:
+* MongoDB Atlas is used as the cloud database
+* Network Access was configured to allow external connections (0.0.0.0/0) for Railway deployment
+* Backend and frontend are integrated and served together via Express
+* Application is deployed and hosted on Railway platform
 
-```bash
-npm install
-```
+---
 
-3. Create `backend/.env`
-4. Start the backend:
+📡 REST API Endpoints
 
-```bash
-npm run dev
-```
+Auth:
+POST /api/auth/signup
+POST /api/auth/login
+GET /api/auth/me
 
-The API will run at `http://localhost:5000`.
+Projects:
+POST /api/projects
+GET /api/projects
+POST /api/projects/:projectId/members
 
-## Run the Frontend
+Tasks:
+POST /api/tasks
+GET /api/tasks
+PATCH /api/tasks/:taskId/status
 
-1. Open a terminal in `frontend`
-2. Install dependencies:
+---
 
-```bash
-npm install
-```
+🔄 Application Flow
 
-3. Create `frontend/.env`
-4. Start the frontend:
+1. User signs up as Admin or Member
+2. Admin logs in
+3. Admin creates a project
+4. Admin adds members to the project
+5. Admin creates and assigns tasks
+6. Member logs in
+7. Member views assigned tasks
+8. Member updates task status
 
-```bash
-npm run dev
-```
+---
 
-The frontend will run at the local Vite URL shown in the terminal, usually `http://localhost:5173`.
+🔐 Security & Access Control
 
-## Step-by-Step App Flow
+* JWT-based authentication
+* Protected routes using middleware
+* Role-based permissions:
 
-1. Sign up as an `Admin`
-2. Sign up as one or more `Member` users
-3. Login as the admin
-4. Create a project
-5. Add member users to the project
-6. Create tasks and assign them to members
-7. Login as a member
-8. View assigned tasks and update task status
+  * Admin: Full access to projects and tasks
+  * Member: Limited access to assigned tasks
 
-## Sample REST API Endpoints
+---
 
-### Auth
+📌 Notes
 
-- `POST /api/auth/signup`
-- `POST /api/auth/login`
-- `GET /api/auth/me`
-- `GET /api/auth/users` - admin only
+* REST API architecture is followed
+* MongoDB (NoSQL) is used for flexible data handling
+* Relationships maintained between Users, Projects, and Tasks
+* Input validations implemented for secure operations
 
-### Projects
+---
 
-- `POST /api/projects` - admin only
-- `GET /api/projects`
-- `POST /api/projects/:projectId/members` - admin only
+👤 Author
 
-### Tasks
+Mohd Sadiq
 
-- `POST /api/tasks` - admin only
-- `GET /api/tasks`
-- `PATCH /api/tasks/:taskId/status`
+---
 
-## Sample Request Payloads
-
-### Signup
-
-`POST /api/auth/signup`
-
-```json
-{
-  "name": "Alice Admin",
-  "email": "alice@example.com",
-  "password": "123456",
-  "role": "Admin"
-}
-```
-
-### Login
-
-`POST /api/auth/login`
-
-```json
-{
-  "email": "alice@example.com",
-  "password": "123456"
-}
-```
-
-### Create Project
-
-`POST /api/projects`
-
-```json
-{
-  "name": "Website Redesign",
-  "description": "Internal project for UI improvements"
-}
-```
-
-### Add Member to Project
-
-`POST /api/projects/:projectId/members`
-
-```json
-{
-  "memberId": "USER_ID_HERE"
-}
-```
-
-### Create Task
-
-`POST /api/tasks`
-
-```json
-{
-  "title": "Build dashboard",
-  "description": "Create the initial dashboard page",
-  "deadline": "2026-05-10",
-  "assignedTo": "USER_ID_HERE",
-  "projectId": "PROJECT_ID_HERE"
-}
-```
-
-### Update Task Status
-
-`PATCH /api/tasks/:taskId/status`
-
-```json
-{
-  "status": "done"
-}
-```
-
-## Notes
-
-- Use the `Authorization` header for protected routes:
-
-```text
-Authorization: Bearer YOUR_JWT_TOKEN
-```
-
-- Admin users only see projects they created.
-- Members only see projects they belong to.
-- Members only see tasks assigned to them.
