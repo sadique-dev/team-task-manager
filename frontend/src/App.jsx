@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+const BASE_URL = "https://team-task-manager-production-50a5.up.railway.app";
+const API_URL = import.meta.env.VITE_API_URL || `${BASE_URL}/api`;
 
 const emptyAuthForm = {
   name: "",
