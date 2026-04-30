@@ -241,20 +241,28 @@ function App() {
 
   if (!user) {
     return (
-      <div className="container">
+      <div className="container auth-container">
         <h1>Team Task Manager</h1>
-        <p>Minimal React + Express + MongoDB task manager</p>
+        <p className="subtitle">Minimal React + Express + MongoDB task manager</p>
 
-        <div className="row">
-          <button type="button" onClick={() => setMode("login")}>
+        <div className="row auth-toggle">
+          <button
+            type="button"
+            className={`btn ${mode === "login" ? "btn-primary" : "btn-secondary"}`}
+            onClick={() => setMode("login")}
+          >
             Login
           </button>
-          <button type="button" onClick={() => setMode("signup")}>
+          <button
+            type="button"
+            className={`btn ${mode === "signup" ? "btn-primary" : "btn-secondary"}`}
+            onClick={() => setMode("signup")}
+          >
             Signup
           </button>
         </div>
 
-        <form onSubmit={handleAuthSubmit}>
+        <form className="panel form-panel" onSubmit={handleAuthSubmit}>
           {mode === "signup" && (
             <>
               <input
@@ -289,30 +297,30 @@ function App() {
           </button>
         </form>
 
-        {message && <p>{message}</p>}
+        {message && <p className="message">{message}</p>}
       </div>
     );
   }
 
   return (
     <div className="container">
-      <div className="row">
+      <div className="row header-row panel">
         <div>
           <h1>Dashboard</h1>
-          <p>
+          <p className="subtitle">
             Logged in as {user.name} ({user.role})
           </p>
         </div>
-        <button type="button" onClick={logout}>
+        <button type="button" className="btn btn-danger" onClick={logout}>
           Logout
         </button>
       </div>
 
-      {message && <p>{message}</p>}
+      {message && <p className="message">{message}</p>}
 
       {isAdmin && (
-        <>
-          <section>
+        <div className="grid-two">
+          <section className="panel">
             <h2>Create Project</h2>
             <form onSubmit={handleProjectCreate}>
               <input
@@ -333,7 +341,7 @@ function App() {
             </form>
           </section>
 
-          <section>
+          <section className="panel">
             <h2>Add Member to Project</h2>
             <form onSubmit={handleAddMember}>
               <select
@@ -368,10 +376,10 @@ function App() {
                 Add Member
               </button>
             </form>
-            <p>Signup member accounts first, then add them to a project.</p>
+            <p className="hint">Signup member accounts first, then add them to a project.</p>
           </section>
 
-          <section>
+          <section className="panel">
             <h2>Create Task</h2>
             <form onSubmit={handleTaskCreate}>
               <input
@@ -420,10 +428,10 @@ function App() {
               </button>
             </form>
           </section>
-        </>
+        </div>
       )}
 
-      <section>
+      <section className="panel">
         <h2>{isAdmin ? "Projects" : "My Projects"}</h2>
         {projects.length === 0 ? (
           <p>No projects yet.</p>
@@ -438,7 +446,7 @@ function App() {
         )}
       </section>
 
-      <section>
+      <section className="panel">
         <h2>{isAdmin ? "Project Tasks" : "My Assigned Tasks"}</h2>
         {tasks.length === 0 ? (
           <p>No tasks found.</p>
@@ -447,7 +455,9 @@ function App() {
             <div key={task._id} className="card">
               <strong>{task.title}</strong>
               <p>{task.description || "No description"}</p>
-              <p>Status: {task.status}</p>
+              <p>
+                Status: <span className={`status status-${task.status}`}>{task.status}</span>
+              </p>
               <p>Deadline: {new Date(task.deadline).toLocaleDateString()}</p>
               <p>Project: {task.projectId?.name}</p>
               <p>Assigned To: {task.assignedTo?.name}</p>
